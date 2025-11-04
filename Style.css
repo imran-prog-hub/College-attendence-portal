@@ -1,1 +1,22 @@
-
+body {
+  font-family: Arial, sans-serif;
+  background: #282c34;
+  color: #eee;
+  padding: 20px;
+}
+input, button {
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+button {
+  background: #61dafb;
+  color: #282c34;
+  cursor: pointer;
+}
+table, th, td {
+  border: 1px solid #fff;
+  border-collapse: collapse;
+  padding: 8px;
+}
