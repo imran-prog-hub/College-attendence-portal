@@ -3,321 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classic 3D Login</title>
+    <title>MITS Attendance Fetcher</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        /* Basic styling - we'll complete this once we have the form structure */
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-            overflow: hidden;
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
-
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .form-group {
+            margin-bottom: 15px;
         }
-
-        .container {
-            perspective: 1000px;
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
-
-        .login-card {
-            width: 380px;
-            height: 480px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-        }
-
-        .login-card:hover {
-            transform: rotateY(10deg) rotateX(5deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-            display: none;
-        }
-
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo i {
-            font-size: 50px;
-            color: #fff;
-            background: linear-gradient(45deg, #ff8a00, #e52e71);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.3));
-        }
-
-        .logo h2 {
+        button {
+            background: #007bff;
             color: white;
-            margin-top: 10px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 30px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 16px;
-            color: #fff;
-            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
             border: none;
-            border-radius: 50px;
-            outline: none;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .input-group input:focus {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .input-group label {
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 16px;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input:focus + label,
-        .input-group input:valid + label {
-            top: -10px;
-            left: 15px;
-            font-size: 12px;
-            color: #ff8a00;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2px 10px;
-            border-radius: 10px;
-        }
-
-        .submit-btn {
-            padding: 15px;
-            background: linear-gradient(45deg, #ff8a00, #e52e71);
-            border: none;
-            border-radius: 50px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 4px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            margin-top: 10px;
         }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(45deg, #e52e71, #ff8a00);
-        }
-
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 25px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-        }
-
-        .footer a {
-            color: #ff8a00;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: #e52e71;
-            text-decoration: underline;
-        }
-
-        .floating-elements {
-            position: absolute;
+        .attendance-table {
             width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            border-collapse: collapse;
+            margin-top: 20px;
         }
-
-        .floating-element {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 15s infinite linear;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(100vh) rotate(0deg);
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-            }
-        }
-
-        .decoration {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-        }
-
-        .decoration-1 {
-            top: -100px;
-            right: -100px;
-            width: 300px;
-            height: 300px;
-        }
-
-        .decoration-2 {
-            bottom: -100px;
-            left: -100px;
-            width: 250px;
-            height: 250px;
+        .attendance-table th,
+        .attendance-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="floating-elements" id="floatingElements"></div>
-    <div class="decoration decoration-1"></div>
-    <div class="decoration decoration-2"></div>
+    <h1>MITS Attendance Fetcher</h1>
     
-    <div class="container">
-        <div class="login-card">
-            <div class="card-front">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    <h2>Student Portal</h2>
-                </div>
-                
-                <form id="loginForm">
-                    <div class="input-group">
-                        <input type="text" id="rollNumber" required>
-                        <label for="rollNumber">Roll Number</label>
-                    </div>
-                    
-                    <div class="input-group">
-                        <input type="password" id="password" required>
-                        <label for="password">Password</label>
-                    </div>
-                    
-                    <button type="submit" class="submit-btn">Login</button>
-                </form>
-                
-                <div class="footer">
-                    <p>Don't have an account? <a href="#">Sign Up</a></p>
-                    <p><a href="#">Forgot Password?</a></p>
-                </div>
+    <div id="login-section">
+        <form id="login-form">
+            <div class="form-group">
+                <label for="rollno">Roll Number:</label>
+                <input type="text" id="rollno" name="rollno" required>
             </div>
-            
-            <div class="card-back">
-                <!-- Back content can be added here for additional functionality -->
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
             </div>
-        </div>
+            <button type="submit">Login & Fetch Attendance</button>
+        </form>
+    </div>
+
+    <div id="loading" style="display: none;">
+        <p>Logging in and fetching attendance data...</p>
+    </div>
+
+    <div id="attendance-section" style="display: none;">
+        <h2>Your Attendance</h2>
+        <div id="attendance-data"></div>
     </div>
 
     <script>
-        // Create floating elements
-        const floatingElements = document.getElementById('floatingElements');
-        for (let i = 0; i < 15; i++) {
-            const element = document.createElement('div');
-            element.classList.add('floating-element');
-            element.style.left = Math.random() * 100 + 'vw';
-            element.style.width = (Math.random() * 30 + 10) + 'px';
-            element.style.height = element.style.width;
-            element.style.animationDuration = (Math.random() * 20 + 10) + 's';
-            element.style.animationDelay = Math.random() * 5 + 's';
-            element.style.opacity = Math.random() * 0.5 + 0.2;
-            floatingElements.appendChild(element);
-        }
-
-        // Form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // This will be completed once we have the form structure
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const rollNumber = document.getElementById('rollNumber').value;
+            
+            const rollno = document.getElementById('rollno').value;
             const password = document.getElementById('password').value;
             
-            // Here you would typically send the data to a server
-            // For demo purposes, we'll just show an alert
-            alert(`Roll Number: ${rollNumber}\nPassword: ${password}\n\nThis is a demo. In a real application, this data would be securely sent to a server.`);
+            // Show loading
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            
+            try {
+                // This function will be implemented based on the actual form structure
+                const attendanceData = await fetchAttendance(rollno, password);
+                displayAttendance(attendanceData);
+            } catch (error) {
+                alert('Error fetching attendance: ' + error.message);
+                document.getElementById('login-section').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+            }
         });
 
-        // Add 3D effect on mouse move
-        document.querySelector('.login-card').addEventListener('mousemove', function(e) {
-            const card = this;
-            const cardRect = card.getBoundingClientRect();
-            const cardCenterX = cardRect.left + cardRect.width / 2;
-            const cardCenterY = cardRect.top + cardRect.height / 2;
+        async function fetchAttendance(rollno, password) {
+            // This will be implemented once we have the form details
+            // It will handle:
+            // 1. Login to mitsims.in
+            // 2. Navigate to attendance page
+            // 3. Parse attendance data
+            // 4. Return structured data
             
-            const mouseX = e.clientX - cardCenterX;
-            const mouseY = e.clientY - cardCenterY;
-            
-            const rotateY = mouseX / 20;
-            const rotateX = -mouseY / 20;
-            
-            card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
-        });
+            // For now, return sample data
+            return [
+                { subject: 'Mathematics', attended: 45, total: 50, percentage: 90 },
+                { subject: 'Physics', attended: 40, total: 48, percentage: 83.33 },
+                { subject: 'Chemistry', attended: 42, total: 50, percentage: 84 }
+            ];
+        }
 
-        // Reset rotation when mouse leaves
-        document.querySelector('.login-card').addEventListener('mouseleave', function() {
-            this.style.transform = 'rotateY(0) rotateX(0)';
-        });
+        function displayAttendance(data) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('attendance-section').style.display = 'block';
+            
+            let html = '<table class="attendance-table">';
+            html += '<tr><th>Subject</th><th>Attended</th><th>Total</th><th>Percentage</th></tr>';
+            
+            data.forEach(item => {
+                html += `<tr>
+                    <td>${item.subject}</td>
+                    <td>${item.attended}</td>
+                    <td>${item.total}</td>
+                    <td>${item.percentage}%</td>
+                </tr>`;
+            });
+            
+            html += '</table>';
+            document.getElementById('attendance-data').innerHTML = html;
+        }
     </script>
 </body>
 </html>
